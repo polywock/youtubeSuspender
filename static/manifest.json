@@ -1,6 +1,6 @@
 {
-  "name": "Youtube Suspender: Save bandwidth for background videos",
-  "version": "0.1",
+  "name": "Youtube Suspender",
+  "version": "0.1.1",
   "web_accessible_resources": ["ctx.js"],
   "description": "Lowers video quality for background videos to save bandwidth.",
   "manifest_version": 2,

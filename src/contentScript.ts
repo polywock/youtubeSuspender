@@ -24,7 +24,9 @@ async function main() {
 
   document.addEventListener('visibilitychange', debounce(e => {
     if (document.hidden) {
-      window.config.enabled && activateLowQuality()
+      const video = document.querySelector(".html5-main-video") as HTMLVideoElement
+      if (!video) return 
+      !video.paused && window.config.enabled && activateLowQuality()
     } else {
       window.initialQuality && revertQuality()
     }
