@@ -6,7 +6,7 @@ import { getDefaultConfig } from "./utils"
 
 let activateDiv = document.getElementById("activate")
 document.getElementById("github").addEventListener("click", e => {
-  window.open("https://github.com/polywock/pipUnblocker", '_blank');
+  window.open("https://github.com/polywock/youtubeSuspender", '_blank');
 })
 
 let config: Config; 
@@ -33,7 +33,7 @@ chrome.storage.onChanged.addListener(changes => {
 })
 
 function syncDOM() {
-  activateDiv.style.color = config.enabled ? "#ea0000" : "#888"
+  activateDiv.style.color = config.enabled ? "#d00" : "#888"
 }
 
 function syncIcon() {
