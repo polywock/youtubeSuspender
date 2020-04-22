@@ -1,24 +1,16 @@
 # Youtube Suspender
 
-
 Lowers video quality for background videos to save bandwidth. Furthermore, because Youtube handles video and audio separetly. Adjusting the video quality does not affect the audio quality. Background sound will still sound just as good.  
-
-## To use, install the [Chrome](https://chrome.google.com/webstore/detail/youtube-suspender/ecdkipaiaegoogcnaddgmcaecodcfgle) extension.
 
 I've tested on 10 minute 1080p video a few times and have averaged a 92% data reduction for background videos. 
 
-[Chart](https://www.androidauthority.com/how-much-data-does-youtube-use-964560/) below, average data usage depending on the Youtube video quality. The savings are a very loose estimate.
+## Discontinued
+I've decided to back away from this project. It wasn't as useful as I thought. And I want to cut my losses early. I've invested a whole 8 hours on it. So, not a great loss, but a deep one. I had dreamed of this extension being a passive one. Just install and save bandwidth. But, the algorithms at play chose a different path for it. 
 
-| Quality | Data per Minute | ~Savings |
-| --- | --- | -- |
-| **144p** | **1 MB** | 
-|240p	| 3.75 MB | 73%
-|360p	| 6.25| 84%
-|480p	| 9.5 MB | 89%
-|720p  <sup>HD</sup> | 33 MB | 97%
-|1080p <sup>HD</sup> | 59 MB | 98%
-|1440p <sup>HD</sup> | 90 MB | 99%
-|2160p <sup>4K</sup> |	240 MB | > 99%
+Youtube Suspender does save bandwidth, but only when you listen to background videos for a continous stretch of time. However, if you tab in/out of the Youtube video tab too frequently. It ends up costing more in bandwidth. That's because Youtube prebuffers a certain amount ahead. For 1080p streams, about a minute for me. If the quality is changed, the buffer of the old quality stream clears. And a new buffer has to be loaded for the new quality stream. This isn't cached. So tabbing in/out will cost a lot of bandwidth. 
+
+it's useful if you actively enable it (eg. when you're planning on listening to Youtube songs for a good chunk of time). But, at that point, you could just lower the video quality manually. The convenience factor was lost, and so was Youtube Suspender. Good bye, my project. 
+
 
 ## Build 
 1. `npm install` to install required dependencies. 
