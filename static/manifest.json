@@ -1,7 +1,8 @@
 {
   "name": "Youtube Suspender",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Lowers video quality for background videos to save bandwidth.",
+  "web_accessible_resources": ["ctx.js"],
   "manifest_version": 2,
   "permissions": ["storage"],
   "browser_action": {
@@ -9,7 +10,8 @@
   },
   "content_scripts": [{
     "matches": ["https://www.youtube.com/*"],
-    "js": ["contentScript.js"]
+    "js": ["contentScript.js"],
+    "run_at": "document_start"
   }],
   "icons": { 
     "128": "icon128.png" 

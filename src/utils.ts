@@ -27,3 +27,13 @@ export function getDefaultConfig(): Config {
     enabled: true
   }
 }
+
+
+export function injectScript(src: string) {
+  const injectTag = document.createElement("script")
+
+  injectTag.type = "text/javascript"
+  injectTag.src = src
+
+  document.documentElement.appendChild(injectTag)
+}

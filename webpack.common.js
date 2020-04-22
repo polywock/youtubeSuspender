@@ -4,7 +4,8 @@ module.exports = {
   entry: {
     background: "./src/background.ts",
     popup: "./src/popup.ts",
-    contentScript: "./src/contentScript.ts"
+    contentScript: "./src/contentScript.ts",
+    ctx: "./src/ctx.ts"
   },
   output: {
     path: resolve(__dirname, "build", "unpacked")

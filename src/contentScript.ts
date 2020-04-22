@@ -1,19 +1,27 @@
 
 import 'regenerator-runtime/runtime'
 import debounce from "lodash.debounce"
-import { getConfigOrDefault } from './utils'
+import { getConfigOrDefault, injectScript } from './utils'
 import { Config } from './types'
 
 declare global {
   interface Window {
     config: Config,
-    initialQuality: string
+    initialQuality: string,
+    lastSet: number
   }
 }
 
+
 main()
 
-async function main() {
+function main() {
+  injectScript(chrome.runtime.getURL("ctx.js"))
+  document.addEventListener("DOMContentLoaded", handleDOMLoaded)
+}
+
+
+async function handleDOMLoaded() {
   window.config = await getConfigOrDefault()
 
   chrome.storage.onChanged.addListener(changes => {
@@ -23,16 +31,35 @@ async function main() {
   })
 
   document.addEventListener('visibilitychange', debounce(e => {
+    const video = document.querySelector(".html5-main-video") as HTMLVideoElement
+    
     if (document.hidden) {
-      const video = document.querySelector(".html5-main-video") as HTMLVideoElement
       if (!video) return 
-      !video.paused && window.config.enabled && activateLowQuality()
+      window.postMessage({type: "YS_BLOCK_QUALITY_CHANGE"}, "*")
+      timeout(100).then(() => {
+        !video.paused && window.config.enabled && activateLowQuality()
+        video.addEventListener("loadedmetadata", handleSourceChange)
+        video.addEventListener("play", handleSourceChange)
+      })
     } else {
+      video?.removeEventListener("loadedmetadata", handleSourceChange)
+      video?.removeEventListener("play", handleSourceChange)
       window.initialQuality && revertQuality()
+      
+      timeout(300).then(() => {
+        window.postMessage({type: "YS_UNBLOCK_QUALITY_CHANGE"}, "*")
+      })
     }
   }, 500, {leading: false, trailing: true}))
 }
 
+async function handleSourceChange(e: Event) {
+  const video = e.target as HTMLVideoElement
+  
+  if (new Date().getTime() - window.lastSet > 3000) {
+    !video.paused && window.config.enabled && activateLowQuality()
+  }
+}
 
 async function ensureSettingsMenuOpen() {
   let someMenuItem: HTMLDivElement = document.querySelector(".ytp-settings-menu .ytp-menuitem")
@@ -121,17 +148,14 @@ async function activateLowQuality() {
   let options = await getQualityOptions()
   
   let selectedOpt = options.find(opt => opt.selected)
-  window.initialQuality = selectedOpt.quality
 
-  let ogValue = localStorage.getItem("yt-player-quality")
 
   const lowest = options[options.length - 2] 
   if (lowest && !lowest.selected) {
+    window.initialQuality = selectedOpt.quality
+    window.lastSet = new Date().getTime()
     lowest.elem.click()
   }
-
-  await timeout(50)
-  localStorage.setItem("yt-player-quality", ogValue)
 }
 
 async function revertQuality() {
@@ -140,14 +164,9 @@ async function revertQuality() {
 
   let initialOpt = options.find(opt => opt.quality === window.initialQuality)
   const target = initialOpt || options[0]
-
-  let ogValue = localStorage.getItem("yt-player-quality")
   
   target.elem.click()
   window.initialQuality = undefined
-
-  await timeout(50)
-  localStorage.setItem("yt-player-quality", ogValue)
 }
 
 function timeout(wait: number) {
