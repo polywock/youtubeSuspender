@@ -1,8 +1,9 @@
 # Youtube Suspender
 
-Lowers video quality for background videos to save bandwidth.
 
-Thankfully, Youtube handles video and audio quality separately. So, Youtube Suspender does not degrade audio quality. 
+Lowers video quality for background videos to save bandwidth. Furthermore, because Youtube handles video and audio separetly. Adjusting the video quality does not affect the audio quality. Background sound will still sound just as good.  
+
+## To use, install the [Chrome](https://chrome.google.com/webstore/detail/youtube-suspender/ecdkipaiaegoogcnaddgmcaecodcfgle) extension.
 
 I've tested on 10 minute 1080p video a few times and have averaged a 92% data reduction for background videos. 
 
@@ -18,8 +19,6 @@ I've tested on 10 minute 1080p video a few times and have averaged a 92% data re
 |1080p <sup>HD</sup> | 59 MB | 98%
 |1440p <sup>HD</sup> | 90 MB | 99%
 |2160p <sup>4K</sup> |	240 MB | > 99%
-
-
 
 ## Build 
 1. `npm install` to install required dependencies. 
